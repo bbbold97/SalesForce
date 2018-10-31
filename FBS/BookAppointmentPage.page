@@ -1,0 +1,45 @@
+<apex:page id="myPage" docType="html-5.0" controller="JqueryDatePicker">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    <div style="display:inline-block; padding:50px">       
+        <apex:form id="myForm">
+            <h3>
+                Choose Time available:   
+            </h3> 
+            <apex:actionRegion>
+                <apex:commandButton action="{!eight}" value="8:AM" />
+                <apex:commandButton action="{!nine}" value="9:AM"/>
+                <apex:commandButton action="{!ten}" value="10:AM"/>
+                <apex:commandButton action="{!eleven}" value="11:AM"/>
+                <apex:commandButton action="{!twe}" value="12:PM"/>
+                <apex:commandButton action="{!three}" value="3:PM"/>
+                <apex:commandButton action="{!four}" value="4:PM"/>
+                <apex:commandButton action="{!five}" value="5:PM"/>
+                <apex:commandButton action="{!six}" value="6:PM"/>
+                <apex:commandButton action="{!seven}" value="7:PM"/>
+                <apex:commandButton action="{!eightPm}" value="8:PM"/><br/><br/>
+                <h1>Selected hour:&nbsp;</h1>
+                
+                <apex:outputText value="{!time8}" /><br/><br/>
+            </apex:actionRegion>
+            <h3>
+                Choose Date available:&nbsp;
+            </h3>
+            <apex:input type="date" id="fromDate" value="{!fromDate}" style="display:none;" /> 
+            <input type="text" id="fromDatePicker"/><br/><br/>
+            <apex:commandButton action="{!Book}" value="Confirm"/><br/><br/>
+            <script type="text/javascript">
+            var $j = jQuery.noConflict();
+            $j( "#fromDatePicker" ).datepicker({
+                numberOfMonths:2,
+                altField: "#myPage\\:myForm\\:fromDate",
+                altFormat: "yy-mm-dd"
+            });
+            
+            $j("#fromDatePicker").value($j("#myPage\\:myForm\\:fromDate").value());
+            
+            </script>
+        </apex:form>
+    </div>
+</apex:page>

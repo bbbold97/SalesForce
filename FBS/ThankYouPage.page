@@ -1,0 +1,6 @@
+<apex:page >
+    <div style="text-align:center; padding-top:140px">
+        <h1 style=" font-size: 25px; horizontal-align:center">Thank you for booking an appointment with PBS!</h1><br/><br/>
+        <h3 style=" font-size: 25px"> You will receive an email with your confimation soon.</h3>
+    </div>
+</apex:page>

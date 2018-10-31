@@ -1,0 +1,19 @@
+<apex:page controller="providerController" showHeader="false" title="false"> 
+  <apex:form >
+   <apex:tabPanel switchType="client" selectedTab="TabDetails" tabClass="activetab" inactiveTabClass="inactivetab">
+        <apex:tab label="TEAM">
+            <apex:pageBlock title="Provider List">
+                <apex:pageBlockTable value="{!Providers}" var="t">
+                    <apex:column headerValue="Provider NAME">
+                       <apex:outputPanel >
+                            <apex:commandLink action="{!Go}">
+                               {!t.name}<apex:param name="id" value="{!t.id}"/>
+                            </apex:commandLink>
+                       </apex:outputPanel>
+                    </apex:column>
+                </apex:pageBlockTable>
+            </apex:pageBlock>
+        </apex:tab>
+   </apex:tabPanel>
+  </apex:form>
+</apex:page>

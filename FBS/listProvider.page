@@ -1,0 +1,23 @@
+<apex:page Controller="DocInfoController" >
+    <apex:form id="form">
+    	<apex:pageBlock title="Provider List">      
+        <apex:pageBlockTable value="{!Providers }" var="pr">
+            <apex:column value="{!pr.Id}" />
+            <apex:column >
+                <apex:outputLink value="DocInfo">{!pr.Name} 
+                   <apex:param name="recordID" 
+              					value="{!pr.Id}" 
+              					assignTo="{!recordID}"/>
+                </apex:outputLink>
+            </apex:column>
+            <apex:column >
+                <apex:commandButton value="button" action="{!redirect}">
+                    <apex:param name="recordID" 
+              					value="{!pr.Id}" 
+              					assignTo="{!recordID}"/>
+                </apex:commandButton>
+            </apex:column>
+        </apex:pageBlockTable>      
+    </apex:pageBlock>
+    </apex:form>      
+</apex:page>

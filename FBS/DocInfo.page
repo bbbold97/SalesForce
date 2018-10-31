@@ -1,0 +1,113 @@
+<apex:page standardController="Provider__c">  
+    <apex:pageBlock title="                       Provider Information">
+        <span style="display:inline-block; height:240px; padding-left:100px">
+            <apex:outputField value="{!Provider__c.Photo__c}"/>
+        </span>
+        <span id="docInfo" style="display:inline-block; width:400px; padding-left:100px">
+            <b>Name:</b>&nbsp; <apex:outputField value=" {!Provider__c.Name}" /><pre></pre>
+            <b>Age:</b>&nbsp;<apex:outputField value=" {!Provider__c.Age__c}" /><pre></pre>
+            <b>Gender:</b>&nbsp;<apex:outputField value=" {!Provider__c.Gender__c}" /><pre></pre>
+            <b>Languages:</b>&nbsp;<apex:outputField value=" {!Provider__c.Languages__c}" /><pre></pre>
+            <b>Phone Number:</b>&nbsp;<apex:outputField value=" {!Provider__c.Phone__c}" /><pre></pre> 
+            <b>Email:</b>&nbsp;<apex:outputField value=" {!Provider__c.Email__c}" /><pre></pre>
+            <b>Career Information:</b>&nbsp;<apex:outputField value=" {!Provider__c.Career_Info__c}" /><pre></pre>
+            <b>Specialty:</b>&nbsp;<apex:outputField value=" {!Provider__c.Specialty__c}" /><pre></pre>
+            <b>Business hours:</b>&nbsp;<apex:outputField value=" {!Provider__c.Business_Hours__c}" /><pre></pre>
+            <b>Address:</b>&nbsp;<apex:outputField id="address" value=" {!Provider__c.Address__c}" /><pre></pre>
+            <script>
+            var addressValue = ''; // this variable will store the value in the output Field
+            var id = '{!$Component.address}'; // document id of the output field
+            addressValue = document.getElementById(id).innerHTML; // getting the value in the output field
+            </script>
+        </span>
+        <span id="map" style="display:inline-block"></span>
+        
+        <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script> 
+        <script type="text/javascript"> 
+        $(document).ready(function() {    
+            var myOptions = {
+                zoom: 18,
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                mapTypeControl: true
+            }        
+            var map;
+            var marker;     
+            var geocoder = new google.maps.Geocoder();
+            var address = addressValue;
+            
+            var infowindow = new google.maps.InfoWindow({
+                content:  address
+            });
+            
+            geocoder.geocode( { address: address}, function(results, status) {
+                if (status == google.maps.GeocoderStatus.OK && results.length) {
+                    if (status != google.maps.GeocoderStatus.ZERO_RESULTS) {
+                        
+                        //create map
+                        map = new google.maps.Map(document.getElementById("map"), myOptions);
+                        
+                        //center map
+                        map.setCenter(results[0].geometry.location);
+                        
+                        //create marker
+                        marker = new google.maps.Marker({
+                            position: results[0].geometry.location,
+                            map: map,
+                            title:  address
+                        });
+                        
+                        //add listeners
+                        google.maps.event.addListener(marker, 'click', function() {
+                            infowindow.open(map,marker);
+                        });
+                        google.maps.event.addListener(infowindow, 'closeclick', function() {
+                            map.setCenter(marker.getPosition()); 
+                        });
+                        
+                    }
+                    
+                } else {
+                    $('#map').css({'height' : '15px'});
+                    $('#map').html("This's address could not be found, please make sure the address is correct.");
+                    resizeIframe();
+                }
+            });
+            
+            function resizeIframe() {
+                var me = window.name;
+                if (me) {
+                    var iframes = parent.document.getElementsByName(me);
+                    if (iframes && iframes.length == 1) {
+                        height = document.body.offsetHeight;
+                        iframes[0].style.height = height + "px";
+                    }
+                }
+            }
+            
+        });
+        </script>
+        <style>
+            #map {
+            font-family: Arial;
+            font-size:12px;
+            line-height:normal !important;
+            height:250px;
+            width:350px;
+            background:transparent;
+            
+            }
+        </style> 
+        <span style="display:inline-block;padding-top:70px; padding-left:550px;">
+        	<apex:form>
+            <apex:commandButton value="Book Appointment" oncomplete="getBooking();"/>
+        </apex:form>
+        </span>
+        
+        <script>
+        function getBooking() {
+            window.open('https://na49.lightning.force.com/lightning/o/Appointment__c/list?filterName=Recent') ;
+        }
+        </script>
+    </apex:pageBlock>
+</apex:page>
